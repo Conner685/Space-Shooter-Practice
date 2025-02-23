@@ -1,0 +1,95 @@
+[gd_scene load_steps=14 format=3 uid="uid://bgqn3ei8gaau7"]
+
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_afr0k"]
+[ext_resource type="Texture2D" uid="uid://dvqpdxlek5fca" path="res://Space shooter(asset)/PNG/playerShip1_orange.png" id="1_b47yl"]
+[ext_resource type="AudioStream" uid="uid://bii1xk7xqxrs0" path="res://Space shooter(asset)/Bonus/sfx_laser1.ogg" id="3_nbvoo"]
+[ext_resource type="AudioStream" uid="uid://bnj528wd8hh4u" path="res://Space shooter(asset)/Bonus/sfx_shieldDown.ogg" id="4_063rj"]
+
+[sub_resource type="Gradient" id="Gradient_wt410"]
+offsets = PackedFloat32Array(0, 0.609053)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d6ed5"]
+gradient = SubResource("Gradient_wt410")
+
+[sub_resource type="Curve" id="Curve_bso3c"]
+min_value = -1.0
+_data = [Vector2(0, -1), 0.0, 0.0, 0, 0, Vector2(0.472325, 0.802731), 0.0, 0.0, 0, 0, Vector2(0.797048, 0.763278), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_aoaho"]
+curve = SubResource("Curve_bso3c")
+
+[sub_resource type="Curve" id="Curve_rx68n"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4h5kv"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_jqhx0"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_ssy3g"]
+curve_x = SubResource("Curve_rx68n")
+curve_y = SubResource("Curve_4h5kv")
+curve_z = SubResource("Curve_jqhx0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2and2"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(7, 1, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angular_velocity_min = -40.0
+angular_velocity_max = 40.0
+gravity = Vector3(0, 98, 0)
+scale_min = 3.0
+scale_max = 7.0
+scale_over_velocity_max = 638.71
+scale_over_velocity_curve = SubResource("CurveXYZTexture_ssy3g")
+color = Color(1, 0.156863, 0.145098, 1)
+color_ramp = SubResource("GradientTexture1D_d6ed5")
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+hue_variation_curve = SubResource("CurveTexture_aoaho")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 4.0
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.7, 0.7)
+collision_mask = 6
+script = ExtResource("1_afr0k")
+
+[node name="AfterBurner" type="GPUParticles2D" parent="."]
+position = Vector2(0, 35)
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_2and2")
+lifetime = 0.4
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_b47yl")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8.57143, -37.1429, 8.57143, -37.1429, 12.8571, -11.4286, 35.7143, 2.85714, 41.4286, 0, 41.4286, 0, 44.2857, -5.71429, 48.5714, -5.71429, 47.1429, 24.2857, 42.8571, 24.2857, 41.4286, 20, 37.1429, 22.8571, 14.2857, 27.1429, 7.14286, 37.1429, -7.14286, 37.1429, -12.8571, 27.1429, -34.2857, 22.8571, -40, 20, -41.4286, 20, -42.8571, 24.2857, -45.7143, 24.2857, -48.5714, -5.71429, -44.2857, -5.71429, -41.4286, 0, -35.7143, 2.85714, -11.4286, -10)
+
+[node name="LaserSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(0, -37)
+
+[node name="FireRate" type="Timer" parent="."]
+wait_time = 0.125
+
+[node name="LaserSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_nbvoo")
+
+[node name="DamageSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_063rj")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+
+[connection signal="timeout" from="FireRate" to="." method="_on_fire_rate_timeout"]

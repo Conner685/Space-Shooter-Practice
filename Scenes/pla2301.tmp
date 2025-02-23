@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgqn3ei8gaau7"]
+
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_afr0k"]
+[ext_resource type="Texture2D" uid="uid://dvqpdxlek5fca" path="res://Space shooter(asset)/PNG/playerShip1_orange.png" id="1_b47yl"]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.7, 0.7)
+collision_mask = 6
+script = ExtResource("1_afr0k")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_b47yl")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8.57143, -37.1429, 8.57143, -37.1429, 12.8571, -11.4286, 35.7143, 2.85714, 41.4286, 0, 41.4286, 0, 44.2857, -5.71429, 48.5714, -5.71429, 47.1429, 24.2857, 42.8571, 24.2857, 41.4286, 20, 37.1429, 22.8571, 14.2857, 27.1429, 7.14286, 37.1429, -7.14286, 37.1429, -12.8571, 27.1429, -34.2857, 22.8571, -40, 20, -41.4286, 20, -42.8571, 24.2857, -45.7143, 24.2857, -48.5714, -5.71429, -44.2857, -5.71429, -41.4286, 0, -35.7143, 2.85714, -11.4286, -10)
+
+[node name="LaserSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(0, -40)

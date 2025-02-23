@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://btwn541dq1s8q"]
+
+[ext_resource type="Texture2D" uid="uid://dc5chs8j16rmj" path="res://Pixel star anim/tile003.png" id="1_mbf3a"]
+[ext_resource type="Script" path="res://Scenes/star.gd" id="1_x8g87"]
+[ext_resource type="Texture2D" uid="uid://cam7re0xhtcei" path="res://Pixel star anim/tile001.png" id="2_iyeds"]
+[ext_resource type="Texture2D" uid="uid://f68aiiq0puru" path="res://Pixel star anim/tile000.png" id="3_4l2nx"]
+[ext_resource type="Texture2D" uid="uid://b5xhk8gto01g8" path="res://Pixel star anim/tile002.png" id="4_dlfp3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nbbed"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_mbf3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_iyeds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4l2nx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4l2nx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4l2nx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_iyeds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_mbf3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dlfp3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="Star" type="Node2D"]
+script = ExtResource("1_x8g87")
+
+[node name="Star" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_nbbed")
+autoplay = "default"
+frame = 7
+frame_progress = 1.0
+
+[node name="StarLife" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="StarLife" to="." method="_on_star_life_timeout"]

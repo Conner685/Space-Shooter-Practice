@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3 uid="uid://iv5lu4ebcxtl"]
+
+[ext_resource type="PackedScene" uid="uid://bgqn3ei8gaau7" path="res://Scenes/player.tscn" id="1_chpr0"]
+[ext_resource type="Texture2D" uid="uid://vvajc0cwalq8" path="res://Space shooter(asset)/Backgrounds/darkPurple.png" id="1_lp14q"]
+[ext_resource type="PackedScene" uid="uid://slfpbdm3xt73" path="res://Scenes/ui.tscn" id="4_hfe03"]
+[ext_resource type="Script" path="res://Scenes/Level.gd" id="4_sh1i1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_82kmh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u87pb"]
+size = Vector2(19.22, 20)
+
+[node name="Level" type="Node2D"]
+position = Vector2(0, 1)
+script = ExtResource("4_sh1i1")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+scale = Vector2(7.5, 4.22)
+texture = ExtResource("1_lp14q")
+metadata/_edit_lock_ = true
+
+[node name="Stars" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="StarSpawner" type="Timer" parent="Stars"]
+one_shot = true
+autostart = true
+
+[node name="Player" parent="." instance=ExtResource("1_chpr0")]
+position = Vector2(974, 666)
+
+[node name="MeteorTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="Borders" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Borders"]
+collision_layer = 4
+
+[node name="RightBorder" type="CollisionShape2D" parent="Borders/StaticBody2D"]
+position = Vector2(1920, 540)
+scale = Vector2(0.1, 54)
+shape = SubResource("RectangleShape2D_82kmh")
+
+[node name="LeftBorder" type="CollisionShape2D" parent="Borders/StaticBody2D"]
+position = Vector2(0, 540)
+scale = Vector2(0.1, 54)
+shape = SubResource("RectangleShape2D_82kmh")
+
+[node name="TopBorder" type="CollisionShape2D" parent="Borders/StaticBody2D"]
+position = Vector2(960, 0)
+scale = Vector2(100, 0.1)
+shape = SubResource("RectangleShape2D_u87pb")
+
+[node name="BottomBorder" type="CollisionShape2D" parent="Borders/StaticBody2D"]
+position = Vector2(960, 1080)
+scale = Vector2(100, 0.1)
+shape = SubResource("RectangleShape2D_u87pb")
+
+[node name="Meteors" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Lasers" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="UI" parent="." instance=ExtResource("4_hfe03")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+autoplay = true
+
+[connection signal="timeout" from="Stars/StarSpawner" to="." method="_on_star_spawner_timeout"]
+[connection signal="laser" from="Player" to="." method="_on_player_laser"]
+[connection signal="timeout" from="MeteorTimer" to="." method="_on_meteor_timer_timeout"]
