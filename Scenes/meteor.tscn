@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0vg0l1odoagi"]
+
+[ext_resource type="Texture2D" uid="uid://ci8bk5vpt207f" path="res://Space shooter(asset)/PNG/Meteors/meteorGrey_big1.png" id="1_8pjij"]
+[ext_resource type="Script" path="res://Scenes/meteor.gd" id="1_imrga"]
+[ext_resource type="AudioStream" uid="uid://b87cvf8atiqxc" path="res://Space shooter(asset)/Bonus/sfx_zap.ogg" id="3_gowwp"]
+
+[node name="Meteor" type="Area2D"]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_imrga")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8pjij")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-32, -40, 22, -40, 49, -1, 34, 32, 11, 28, -21, 41, -49, 10)
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_gowwp")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
